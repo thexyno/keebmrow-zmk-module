@@ -1,13 +1,27 @@
 manifest:
+  # remotes:
+  #   - name: zmkfirmware
+  #     url-base: https://github.com/zmkfirmware
+  #   - name: pim447
+  #     url-base: https://github.com/cdc-mkb
+  #   # Additional modules containing boards/shields/custom code can be listed here as well
+  #   # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
+  # projects:
+  #   - name: zmk
+  #     remote: zmkfirmware
+  #     revision: main
+  #     import: app/west.yml
+  #   - name: mouse-pim447
+  #     remote: pim447
+  #     repo-path: zmk
+  #     revision: mouse-pim447
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
-    # Additional modules containing boards/shields/custom code can be listed here as well
-    # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
+    - name: zmk_ds87
+      url-base: https://github.com/daniel2887
   projects:
     - name: zmk
-      remote: zmkfirmware
-      revision: main
+      remote: zmk_ds87
+      revision: ds87-mouse-pim447
       import: app/west.yml
   self:
     path: config
