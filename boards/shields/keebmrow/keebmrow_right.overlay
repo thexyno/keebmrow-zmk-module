@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) 2020 Pete Johanson
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include "keebmrow.dtsi"
+
+&default_transform {
+    col-offset = <6>;
+};
+
+// &five_column_transform {
+//     col-offset = <6>;
+// };
+
+&kscan0 {
+
+    col-gpios
+        = <&pro_micro 5 (GPIO_ACTIVE_HIGH)>
+        , <&pro_micro 4 (GPIO_ACTIVE_HIGH)>
+        , <&pro_micro 3 (GPIO_ACTIVE_HIGH)>
+        , <&pro_micro 2 (GPIO_ACTIVE_HIGH)>
+        , <&pro_micro 0 (GPIO_ACTIVE_HIGH)>
+        , <&pro_micro 1 (GPIO_ACTIVE_HIGH)>
+        ;
+        row-gpios
+            = <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+};
+
+
+&pinctrl {
+    i2c0_default: i2c0_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 29)>,
+                <NRF_PSEL(TWIM_SCL, 0, 02)>;
+        };
+    };
+
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 29)>,
+                <NRF_PSEL(TWIM_SCL, 0, 02)>;
+            low-power-enable;
+        };
+    };
+};
+
+&i2c0 {
+    status = "okay";
+    trackball_pim447@a {
+        compatible = "pimoroni,trackball_pim447";
+        reg = <0xa>;
+        label = "TRACKBALL_PIM447";
+        move-factor = <2>;      // Increase pointer velocity (default: 1)
+        invert-move-x;          // Invert pointer X axis (left is right, and vice versa)
+        invert-move-y;          // Invert pointer Y axis (up is down, and vice versa)
+        button = <1>;           // Send right-click when pressing the ball (default: 0, ie. left-click)
+        swap-axes;              // Swap X and Y axes (horizontal is vertical, and vice versa)
+        scroll-divisor = <1>;   // Increase wheel velocity (default: 2)
+        invert-scroll-x;        // Invert wheel X axis (left is right, and vice versa)
+        invert-scroll-y;        // Invert wheel Y axis (up is down, and vice versa)
+        mode = <1>;             // Act as mouse wheels at startup (default: PIM447_MOVE for a pointer)
+    };
+};
